@@ -14,11 +14,6 @@ app.use(express.static(__dirname));
 
 console.log('Listening on port 8000 login.js')
 
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true
-}));
-app.use(bodyParser.json());
-
 
 app.get('/verifymail/:email/:verifycode', function (req, res,next) {
 

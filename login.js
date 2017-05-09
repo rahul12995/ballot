@@ -12,12 +12,7 @@ var app = express();
 app.use(express.static(__dirname));
 
 
-console.log('Listening on port 8000 login.js')
-
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true
-}));
-app.use(bodyParser.json());
+console.log('Listening on port 8000 login.js');
 
 
 app.post('/checkemailorphone', function (req, res) {
@@ -102,4 +97,72 @@ app.post('/checkloginuserdetails', function (req, res) {
 });
 
 
+app.post('/getallusers', function (req, res) {
+
+
+    loginDetails.find({}, function (err, data) {
+
+        if (err) {
+
+            console.log('no data found');
+
+        }
+
+        //if user found.
+        if (data.length != 0) {
+
+
+            res.send(data);
+            console.log("found " + req.body.email);
+
+        }
+        else {
+
+            res.send("not");
+            console.log("not found");
+
+        }
+    });
+});
+
+
+app.post('/inserttoken', function (req, res) {
+
+
+    loginDetails.findOneAndUpdate({"_id": ObjectId(req.body.userId)},
+        {
+
+            $set: {
+                token: req.body.token
+            }
+        },
+        {new: true},
+        function (err, doc) {
+            if (err) {
+                console.log("Something wrong when updating data!");
+            } else {
+                if (doc != null) {
+                    console.log("Token updated");
+                    console.log(doc);
+                    res.send("updated");
+                }
+            }
+        });
+
+
+});
+
+
+app.get('/hello', function (req, res) {
+
+    console.log("hello");
+    res.send("hello");
+    res.setHeader('content-type', 'text/javascript');
+    // res.setHeader('Access-Control-Allow-Origin', 'http://192.168.43.123:5010');
+    // res.setHeader('Access-Control-Allow-Credentials', true);
+    // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    //
+    // res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+});
 module.exports.app = app;

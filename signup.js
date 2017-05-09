@@ -14,16 +14,7 @@ var app = express();
 app.use(express.static(__dirname));
 
 
-console.log('Listening on port 8000 signup.js')
-
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-    extended: true
-}));
-app.use(bodyParser.json());
-
-
-
-
+console.log('Listening on port 8000 signup.js');
 
 app.post('/insertuserdata', function (req, res) {
 
@@ -120,6 +111,7 @@ app.post('/insertuser', function (req, res) {
         rollNo:req.body.rollNo,
         branch:req.body.branch,
         StudentCollegeId:req.body.collegeId,
+        collegeName:req.body.collegeName,
         collegeCode:req.body.collegeCode
 
     }).save(function (error, data) {
